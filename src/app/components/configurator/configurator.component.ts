@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { LanguageService } from '../../core/services/language.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { Language, Genre, GenreOption } from '../../core/types/app.types';
+import { AppStateService } from '../../core/services/app-state.service';
 
 @Component({
     selector: 'app-configurator',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, RouterModule],
     templateUrl: './configurator.component.html',
     styleUrls: ['./configurator.component.css']
 })
@@ -28,7 +30,8 @@ export class ConfiguratorComponent implements OnInit {
 
     constructor(
         public languageService: LanguageService,
-        public themeService: ThemeService
+        public themeService: ThemeService,
+        private appState: AppStateService
     ) {
         this.isDarkMode = this.themeService.isDarkMode();
     }
@@ -49,6 +52,12 @@ export class ConfiguratorComponent implements OnInit {
 
     onGenreSelect(genre: Genre): void {
         this.selectedGenre = genre;
+    }
+
+    onContinue(): void {
+        if (this.selectedGenre) {
+            this.appState.startStory(this.selectedGenre, this.selectedLanguage);
+        }
     }
 
     toggleDarkMode(): void {

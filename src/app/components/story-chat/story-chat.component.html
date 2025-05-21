@@ -1,0 +1,61 @@
+<app-nav-panel [pageName]="storyTitle || 'Interactive Story'"></app-nav-panel>
+
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900 pt-20 pb-6">
+  <div class="relative py-3 sm:max-w-xl sm:mx-auto w-full px-4">
+    <!-- Story Parts -->
+    <div class="space-y-8" #storyContainer>
+      <div *ngFor="let part of storyParts" 
+           class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 relative">
+        
+        <!-- Loading Overlay for new part -->
+        <div *ngIf="part.isLoading" 
+             class="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90 
+                    flex items-center justify-center rounded-lg">
+          <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+
+        <!-- Image Description -->
+        <div *ngIf="part.imageDescription" 
+             class="my-4 p-4 text-sm italic text-gray-600 dark:text-gray-400 
+                    bg-gray-50 dark:bg-gray-700/50 
+                    border-l-4 border-gray-300 dark:border-gray-600">
+          {{ part.imageDescription }}
+        </div>
+
+        <!-- Story Text -->
+        <div class="prose dark:prose-invert max-w-none mb-6 text-gray-800 dark:text-gray-200" [innerHTML]="part.text"></div>
+
+        <!-- Selected Option -->
+        <div *ngIf="part.selectedOption" class="mt-4 mb-2 text-sm font-medium text-blue-600 dark:text-blue-400">
+          You chose: {{ part.selectedOption }}
+        </div>
+
+        <!-- Options -->
+        <div *ngIf="part === storyParts[storyParts.length - 1] && !part.isLoading" 
+             class="grid grid-cols-1 gap-4">
+          <button *ngFor="let option of part.options"
+                  (click)="selectOption(option, part)"
+                  class="group relative flex items-center justify-between w-full px-7 py-4 
+                         bg-white dark:bg-gray-800 
+                         text-gray-800 dark:text-white
+                         rounded-lg shadow-md hover:shadow-lg
+                         border-2 border-gray-200 dark:border-gray-600
+                         transition-all duration-200">
+            <span class="flex-1 text-left">{{ option }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-5 w-5 ml-4 text-gray-400 group-hover:text-blue-500 transition-colors" 
+                 viewBox="0 0 20 20" 
+                 fill="currentColor">
+              <path fill-rule="evenodd" 
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" 
+                    clip-rule="evenodd" />
+            </svg>
+            <div class="absolute inset-0 border-2 border-blue-500 dark:border-blue-400 
+                       opacity-0 group-hover:opacity-100 rounded-lg 
+                       transition-opacity duration-200"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
