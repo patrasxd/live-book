@@ -13,6 +13,8 @@ interface StoryPart {
   options: string[];
   isLoading?: boolean;
   selectedOption?: string;
+  endReturn?: string;
+  continueStory?: string;
 }
 
 @Component({
@@ -74,28 +76,52 @@ export class StoryChatComponent implements OnInit {
     }
 
     // Extract image description - handle both closing tag formats
-    const imageDescriptionMatch = response.match(/<Image description>(.*?)(?:<\/Image description>|<\/Image description\/>)/s);
+    const imageDescriptionMatch = response.match(/<Image description>(.*?)<\/Image description>/s);
     part.imageDescription = imageDescriptionMatch ? imageDescriptionMatch[1].trim() : '';
 
-    // Extract options
-    const optionsMatches = response.match(/<Option [A-C]>(.*?)<\/Option [A-C]>/g);
-    part.options = optionsMatches 
-      ? optionsMatches.map(match => {
-          const optionText = match.match(/<Option [A-C]>(.*?)<\/Option [A-C]>/);
-          return optionText ? optionText[1].trim() : '';
-        })
-      : [];
+    // Extract End Return and Continue Story options
+    const endReturnMatch = response.match(/<End Return>(.*?)<\/End Return>/s);
+    const continueStoryMatch = response.match(/<Continue Story>(.*?)<\/Continue Story>/s);
+
+    if (endReturnMatch || continueStoryMatch) {
+      part.endReturn = endReturnMatch ? endReturnMatch[1].trim() : undefined;
+      part.continueStory = continueStoryMatch ? continueStoryMatch[1].trim() : undefined;
+      part.options = [];
+      
+      if (part.endReturn) {
+        part.options.push(part.endReturn);
+      }
+      if (part.continueStory) {
+        part.options.push(part.continueStory);
+      }
+    } else {
+      // Extract regular options
+      const optionsMatches = response.match(/<Option [A-C]>(.*?)<\/Option [A-C]>/g);
+      part.options = optionsMatches 
+        ? optionsMatches.map(match => {
+            const optionText = match.match(/<Option [A-C]>(.*?)<\/Option [A-C]>/);
+            return optionText ? optionText[1].trim() : '';
+          })
+        : [];
+    }
 
     // Clean up the story text
     part.text = response
       .replace(/<Title>.*?<\/Title>/s, '')
-      .replace(/<Image description>.*?(?:<\/Image description>|<\/Image description\/>)/s, '')
+      .replace(/<Image description>.*?<\/Image description>/s, '')
       .replace(/<Option [A-C]>.*?<\/Option [A-C]>/g, '')
+      .replace(/<End Return>.*?<\/End Return>/s, '')
+      .replace(/<Continue Story>.*?<\/Continue Story>/s, '')
       .trim();
   }
 
   async selectOption(option: string, currentPart: StoryPart) {
     currentPart.selectedOption = option;
+
+    // If this was an End Return option, we don't continue the story
+    if (option === currentPart.endReturn) {
+      return;
+    }
 
     const newPart: StoryPart = {
       text: '',
@@ -119,8 +145,18 @@ export class StoryChatComponent implements OnInit {
 
   private scrollToBottom(): void {
     setTimeout(() => {
-      const element = this.storyContainer.nativeElement;
-      element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      const storyParts = this.storyContainer.nativeElement.children;
+      if (storyParts.length > 0) {
+        const lastPart = storyParts[storyParts.length - 1];
+        const headerOffset = 80; // Wysokość nagłówka (nav-panel)
+        const elementPosition = lastPart.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }, 100);
   }
 } 

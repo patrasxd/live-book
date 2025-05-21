@@ -35,14 +35,14 @@
              class="grid grid-cols-1 gap-4">
           <button *ngFor="let option of part.options"
                   (click)="selectOption(option, part)"
-                  class="group relative flex items-center justify-between w-full px-7 py-4 
-                         bg-white dark:bg-gray-800 
-                         text-gray-800 dark:text-white
-                         rounded-lg shadow-md hover:shadow-lg
-                         border-2 border-gray-200 dark:border-gray-600
-                         transition-all duration-200">
+                  [class]="option === part.endReturn ? 
+                          'group relative flex items-center justify-between w-full px-7 py-4 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200 rounded-lg shadow-md hover:shadow-lg border-2 border-red-200 dark:border-red-800 transition-all duration-200' :
+                          option === part.continueStory ?
+                          'group relative flex items-center justify-between w-full px-7 py-4 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 rounded-lg shadow-md hover:shadow-lg border-2 border-green-200 dark:border-green-800 transition-all duration-200' :
+                          'group relative flex items-center justify-between w-full px-7 py-4 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-md hover:shadow-lg border-2 border-gray-200 dark:border-gray-600 transition-all duration-200'">
             <span class="flex-1 text-left">{{ option }}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" 
+            <svg *ngIf="option !== part.endReturn" 
+                 xmlns="http://www.w3.org/2000/svg" 
                  class="h-5 w-5 ml-4 text-gray-400 group-hover:text-blue-500 transition-colors" 
                  viewBox="0 0 20 20" 
                  fill="currentColor">
@@ -50,9 +50,11 @@
                     d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" 
                     clip-rule="evenodd" />
             </svg>
-            <div class="absolute inset-0 border-2 border-blue-500 dark:border-blue-400 
-                       opacity-0 group-hover:opacity-100 rounded-lg 
-                       transition-opacity duration-200"></div>
+            <div [class]="option === part.endReturn ?
+                         'absolute inset-0 border-2 border-red-500 dark:border-red-400 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-200' :
+                         option === part.continueStory ?
+                         'absolute inset-0 border-2 border-green-500 dark:border-green-400 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-200' :
+                         'absolute inset-0 border-2 border-blue-500 dark:border-blue-400 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-200'"></div>
           </button>
         </div>
       </div>

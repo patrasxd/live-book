@@ -46,12 +46,30 @@ export class ConfiguratorComponent implements OnInit {
         });
     }
 
+    private scrollToElement(elementId: string): void {
+        setTimeout(() => {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const headerOffset = 20;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
+    }
+
     onLanguageChange(lang: Language): void {
         this.languageService.setLanguage(lang);
+        this.scrollToElement('genreSection');
     }
 
     onGenreSelect(genre: Genre): void {
         this.selectedGenre = genre;
+        this.scrollToElement('continueButton');
     }
 
     onContinue(): void {
