@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ConfiguratorComponent } from './components/configurator/configurator.component';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    standalone: true,
+    imports: [CommonModule, ConfiguratorComponent],
+    template: `<app-configurator></app-configurator>`
 })
 export class AppComponent {
-  title = 'live-book';
+    title = 'live-book';
 }

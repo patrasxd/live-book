@@ -1,0 +1,125 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header with theme toggle -->
+        <div class="flex justify-end mb-8">
+            <button 
+                (click)="toggleDarkMode()" 
+                class="group px-4 py-2 rounded-lg font-medium
+                       bg-white dark:bg-gray-800 
+                       text-gray-900 dark:text-white
+                       border border-gray-200 dark:border-gray-700
+                       hover:bg-gray-100 dark:hover:bg-gray-700 
+                       transition-all duration-300 ease-in-out
+                       hover:scale-105 hover:-translate-y-0.5 hover:shadow-lg
+                       active:scale-95 active:translate-y-0">
+                <span class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" 
+                         [class.rotate-180]="isDarkMode"
+                         fill="none" 
+                         viewBox="0 0 24 24" 
+                         stroke="currentColor">
+                        <path *ngIf="!isDarkMode" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round" 
+                              stroke-width="2" 
+                              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        <path *ngIf="isDarkMode" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round" 
+                              stroke-width="2" 
+                              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/>
+                    </svg>
+                    <span class="text-fade">
+                        {{ isDarkMode ? languageService.translate('theme.light') : languageService.translate('theme.dark') }}
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <!-- Main content -->
+        <div class="max-w-4xl mx-auto space-y-12">
+            <!-- Welcome section -->
+            <div class="text-center space-y-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
+                    <span class="text-fade block">{{ languageService.translate('welcome.title') }}</span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-300 transition-colors duration-300">
+                    <span class="text-fade block">{{ languageService.translate('welcome.subtitle') }}</span>
+                </p>
+            </div>
+
+            <!-- Language selection -->
+            <div class="space-y-4">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white text-center transition-colors duration-300">
+                    <span class="text-fade block">{{ languageService.translate('language.select') }}</span>
+                </h2>
+                <div class="flex justify-center gap-4">
+                    <button 
+                        *ngFor="let lang of languages"
+                        (click)="onLanguageChange(lang)"
+                        [class.ring-2]="selectedLanguage === lang"
+                        [class.ring-blue-500]="selectedLanguage === lang"
+                        class="px-6 py-3 rounded-lg font-medium 
+                               transition-all duration-300 ease-in-out delay-[50ms]
+                               hover:scale-110 hover:-translate-y-1 hover:shadow-lg
+                               active:scale-95 active:translate-y-0.5
+                               bg-white dark:bg-gray-800 
+                               text-gray-900 dark:text-white
+                               border border-gray-200 dark:border-gray-700
+                               hover:border-blue-500 dark:hover:border-blue-400
+                               hover:text-blue-600 dark:hover:text-blue-400">
+                        {{ lang.toUpperCase() }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Genre selection -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-white text-center transition-colors duration-300">
+                    <span class="text-fade block">{{ languageService.translate('genre.select') }}</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <button 
+                        *ngFor="let genre of genres"
+                        (click)="onGenreSelect(genre.id)"
+                        [class.ring-2]="selectedGenre === genre.id"
+                        [class.ring-blue-500]="selectedGenre === genre.id"
+                        class="p-6 rounded-xl text-left 
+                               transition-all duration-300 ease-in-out delay-[50ms]
+                               hover:scale-105 hover:-translate-y-1 hover:shadow-xl
+                               active:scale-95 active:translate-y-0.5
+                               bg-white dark:bg-gray-800 
+                               text-gray-900 dark:text-white
+                               border border-gray-200 dark:border-gray-700
+                               hover:border-blue-500 dark:hover:border-blue-400">
+                        <div class="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{{ genre.icon }}</div>
+                        <h3 class="text-xl font-semibold mb-2 transition-colors duration-300
+                                  hover:text-blue-600 dark:hover:text-blue-400">
+                            <span class="text-fade block">{{ languageService.translate(genre.titleKey) }}</span>
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">
+                            <span class="text-fade block">{{ languageService.translate(genre.descriptionKey) }}</span>
+                        </p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Continue button -->
+            <div class="text-center">
+                <button 
+                    [disabled]="!selectedGenre"
+                    class="px-8 py-4 text-lg font-medium rounded-lg
+                           bg-blue-500 text-white
+                           disabled:opacity-50 disabled:cursor-not-allowed
+                           hover:bg-blue-600 
+                           transition-all duration-300 ease-in-out delay-[50ms]
+                           hover:scale-105 hover:-translate-y-1 hover:shadow-xl
+                           active:scale-95 active:translate-y-0.5
+                           disabled:hover:scale-100 disabled:hover:translate-y-0 disabled:hover:shadow-none">
+                    <span class="text-fade block">{{ languageService.translate('continue') }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div> 
