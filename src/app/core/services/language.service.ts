@@ -28,7 +28,8 @@ export class LanguageService {
             'theme.toggle': 'Przełącz motyw',
             'theme.light': 'Tryb jasny',
             'theme.dark': 'Tryb ciemny',
-            'continue': 'Kontynuuj'
+            'continue': 'Kontynuuj',
+            'you.chose': 'Wybrałeś:'
         },
         en: {
             'welcome.title': 'Welcome to the Interactive Book!',
@@ -48,7 +49,8 @@ export class LanguageService {
             'theme.toggle': 'Toggle theme',
             'theme.light': 'Light Mode',
             'theme.dark': 'Dark Mode',
-            'continue': 'Continue'
+            'continue': 'Continue',
+            'you.chose': 'You chose:'
         }
     };
 

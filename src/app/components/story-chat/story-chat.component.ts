@@ -5,6 +5,7 @@ import { GeminiService } from '../../core/services/gemini.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { NavPanelComponent } from '../nav-panel/nav-panel.component';
 import { AppStateService } from '../../core/services/app-state.service';
+import { LanguageService } from '../../core/services/language.service';
 
 interface StoryPart {
   text: string;
@@ -30,7 +31,8 @@ export class StoryChatComponent implements OnInit {
   constructor(
     private geminiService: GeminiService,
     private themeService: ThemeService,
-    private appState: AppStateService
+    private appState: AppStateService,
+    public languageService: LanguageService
   ) {}
 
   ngOnInit() {
@@ -71,8 +73,8 @@ export class StoryChatComponent implements OnInit {
       this.storyTitle = titleMatch[1].trim();
     }
 
-    // Extract image description
-    const imageDescriptionMatch = response.match(/<Image description>(.*?)<\/Image description>/s);
+    // Extract image description - handle both closing tag formats
+    const imageDescriptionMatch = response.match(/<Image description>(.*?)(?:<\/Image description>|<\/Image description\/>)/s);
     part.imageDescription = imageDescriptionMatch ? imageDescriptionMatch[1].trim() : '';
 
     // Extract options
@@ -87,7 +89,7 @@ export class StoryChatComponent implements OnInit {
     // Clean up the story text
     part.text = response
       .replace(/<Title>.*?<\/Title>/s, '')
-      .replace(/<Image description>.*?<\/Image description>/s, '')
+      .replace(/<Image description>.*?(?:<\/Image description>|<\/Image description\/>)/s, '')
       .replace(/<Option [A-C]>.*?<\/Option [A-C]>/g, '')
       .trim();
   }

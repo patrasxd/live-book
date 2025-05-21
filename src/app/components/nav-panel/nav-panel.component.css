@@ -1,0 +1,7 @@
+.text-fade {
+  transition: opacity 0.3s ease-in-out;
+}
+
+button:hover .text-fade {
+  opacity: 0.8;
+} 

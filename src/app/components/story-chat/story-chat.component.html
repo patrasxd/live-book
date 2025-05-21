@@ -27,7 +27,7 @@
 
         <!-- Selected Option -->
         <div *ngIf="part.selectedOption" class="mt-4 mb-2 text-sm font-medium text-blue-600 dark:text-blue-400">
-          You chose: {{ part.selectedOption }}
+          {{ languageService.translate('you.chose') }} {{ part.selectedOption }}
         </div>
 
         <!-- Options -->
