@@ -1,59 +1,118 @@
-# LiveBook
+# Live Book – Interactive AI Story Generator
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.13.
+Live Book is a modern, interactive web application that lets you create and experience unique, AI-generated stories. Choose your language and genre, then make decisions at every step to shape the narrative. Powered by Google Gemini, Live Book delivers immersive, branching stories with vivid scene descriptions and multiple choices.
 
-## Development server
+---
 
-To start a local development server, run:
+## ✨ Features
 
+- **AI-powered interactive stories**: Each story is generated in real-time by Google Gemini, adapting to your choices.
+- **Multiple genres**: Sci-Fi, Fantasy, Horror, Romance, Mystery, and more.
+- **Multi-language support**: Start your adventure in English or Polish.
+- **Rich scene descriptions**: Each part of the story includes a detailed image description for visualization.
+- **Modern UI/UX**: Responsive, dark mode support, and smooth transitions.
+- **No account required**: Jump right in and start your adventure!
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Node.js** v16 or higher
+- **npm** v7 or higher
+- **Google Gemini API key**
+
+### 1. Clone the repository
 ```bash
-ng serve
+git clone https://github.com/patrasxd/live-book.git
+cd live-book
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+### 2. Install dependencies
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
+### 3. Set up environment variables
+Create a `.env` file in the `server` directory:
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+PORT=3000
 ```
 
-## Building
-
-To build the project run:
-
+### 4. Start the app (development)
+In one terminal, run the Angular frontend:
 ```bash
-ng build
+npm start
+```
+In another terminal, run the backend server:
+```bash
+npm run server
+```
+Or, for both at once:
+```bash
+npm run dev
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Open [http://localhost:4200](http://localhost:4200) in your browser.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🏗️ Building for Production
 
+1. Build the Angular app and install server dependencies:
 ```bash
-ng test
+npm run build:prod
+```
+2. Start the production server:
+```bash
+npm run start:prod
+```
+- The app will be available at `http://localhost:3000` (or your specified `PORT`).
+
+### Using PM2 (Recommended for Production)
+```bash
+npm install -g pm2
+pm run build:prod
+pm run start:prod # or pm2 start server/server.js --name "live-book"
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 🛠️ Configuration
 
-```bash
-ng e2e
-```
+- `GEMINI_API_KEY` – Your Google Gemini API key (required)
+- `PORT` – Port for the backend server (default: 3000)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 🧑‍💻 Usage
+1. **Choose your language and genre** on the welcome screen.
+2. **Read the story** as it unfolds, with each part including a vivid image description.
+3. **Select from three options** at each step to decide what happens next.
+4. **Continue until the story ends** or take an unexpected turn!
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 🧩 Tech Stack
+- **Frontend**: Angular 19, TailwindCSS
+- **Backend**: Node.js, Express
+- **AI**: Google Gemini API
+- **Other**: RxJS, TypeScript, PM2 (optional for prod)
+
+---
+
+## 📂 Project Structure
+- `src/` – Angular frontend
+- `server/` – Node.js/Express backend
+- `.env` – Environment variables (in `server/`)
+
+---
+
+## 🤝 Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 📝 License
+[MIT](LICENSE) (or specify your license here)

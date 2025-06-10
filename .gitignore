@@ -11,6 +11,12 @@
 npm-debug.log
 yarn-error.log
 
+# Environment files
+.env
+server/.env
+src/environments/*.ts
+!src/environments/environment.prod.ts
+
 # IDEs and editors
 .idea/
 .project
@@ -28,6 +34,16 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Server directory
+/server/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -40,4 +56,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-src/environments/environment.ts
